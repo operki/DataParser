@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Nullable>disable</Nullable>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Authors>operki</Authors>
+        <Description>Comfortable client for parse excel files</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <LangVersion>default</LangVersion>
+        <Version>0.0.1</Version>
+        <RootNamespace>DataParser.HtmlParser</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\DataParsers.Base\DataParsers.Base.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="ExcelDataReader" Version="3.6.0"/>
+        <PackageReference Include="NPOI" Version="2.6.0"/>
+    </ItemGroup>
+
+</Project>
