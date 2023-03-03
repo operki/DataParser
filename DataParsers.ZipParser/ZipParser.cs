@@ -29,7 +29,7 @@ public static class ZipParser
             if(Directory.Exists(ZipTempFolder))
                 Directory.Delete(ZipTempFolder, true);
         }
-        catch(IOException e)
+        catch(IOException)
         {
             //ignored
         }

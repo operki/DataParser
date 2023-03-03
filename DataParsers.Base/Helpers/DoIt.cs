@@ -12,7 +12,7 @@ public class DoIt
             {
                 return action.Invoke();
             }
-            catch(Exception e)
+            catch(Exception)
             {
                 if(timeout > 0)
                     Thread.Sleep(timeout);
