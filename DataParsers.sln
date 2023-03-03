@@ -10,7 +10,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataParsers.HtmlParser", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataParsers.ZipParser", "DataParsers.ZipParser\DataParsers.ZipParser.csproj", "{C29F6D05-0803-4828-A75B-F9DD3B07232C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataParsers.Excel", "DataParsers.Excel\DataParsers.Excel.csproj", "{60797765-82D6-4859-B005-C4D8E9858FC4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataParsers.ExcelParser", "DataParsers.ExcelParser\DataParsers.ExcelParser.csproj", "{60797765-82D6-4859-B005-C4D8E9858FC4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
