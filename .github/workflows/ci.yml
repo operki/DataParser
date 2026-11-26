@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet restore DataParsers.slnx
+      - run: dotnet build DataParsers.slnx --configuration Release --no-restore
+      - run: dotnet test DataParsers.slnx --configuration Release --no-build
+      - run: dotnet run --project DataParsers.ExcelParserExample --configuration Release --no-build
+      - run: dotnet pack DataParsers.ExcelParser --configuration Release --no-build --output artifacts

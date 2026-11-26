@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +8,7 @@ using DataParsers.Base.Helpers;
 namespace DataParsers.XmlTree;
 
 /// <summary>
-///     Генерируется в XmlTree.cs
+/// Created by XmlTree.
 /// </summary>
 public class XmlNode
 {
@@ -99,61 +99,61 @@ public class XmlNode
     }
 
 	/// <summary>
-	///     Получить значение из элемента
+	/// Gets an element value.
 	/// </summary>
-	/// <param name="nodeName">Название элемента в который надо опуститься, при наличии нескольких таких элементов в текущем элементе вернется первый из них</param>
-	/// <param name="nodeNameDown">Название элемента из которого надо взять значение, при наличии нескольких таких элементов в nodeName вернется первый из них</param>
+	/// <param name="nodeName">Element name; uses the first match when several elements share the name.</param>
+	/// <param name="nodeNameDown">Child element name; uses the first matching child.</param>
 	/// <param name="getNodeCanBeNull">
-	///     true: если элемента нет, то метод вернет null
-	///     false: если элемента нет, то бросается Exception
-	///     null: берется значение, установленное при инициализации XmlTree
+	/// true: returns null when the element is missing.
+	/// false: throws when the element is missing.
+	/// null: uses the setting supplied to the XmlTree constructor.
 	/// </param>
-	/// <returns>Значение элемента nodeNameDown</returns>
+	/// <returns>The value of nodeNameDown.</returns>
 	public string GetValue(string nodeName, string nodeNameDown, bool? getNodeCanBeNull = null)
     {
         return Get(nodeName, getNodeCanBeNull)?.GetValue(nodeNameDown, getNodeCanBeNull);
     }
 
 	/// <summary>
-	///     Получить значение из элемента
+	/// Gets an element value.
 	/// </summary>
-	/// <param name="nodeName">Название элемента из которого надо взять значение, при наличии нескольких таких элементов в текущем элементе вернется первый из них</param>
+	/// <param name="nodeName">Element name; uses the first match when several elements share the name.</param>
 	/// <param name="getNodeCanBeNull">
-	///     true: если элемента нет, то метод вернет null
-	///     false: если элемента нет, то бросается Exception
-	///     null: берется значение, установленное при инициализации XmlTree
+	/// true: returns null when the element is missing.
+	/// false: throws when the element is missing.
+	/// null: uses the setting supplied to the XmlTree constructor.
 	/// </param>
-	/// <returns>Значение элемента nodeName</returns>
+	/// <returns>The value of nodeName.</returns>
 	public string GetValue(string nodeName, bool? getNodeCanBeNull = null)
     {
         return Get(nodeName, getNodeCanBeNull)?.Value;
     }
 
 	/// <summary>
-	///     Получить элемент
+	/// Gets the first matching element.
 	/// </summary>
-	/// <param name="nodeName">Название элемента, при наличии нескольких таких элементов в текущем элементе вернется первый из них</param>
+	/// <param name="nodeName">Element name; uses the first match when several elements share the name.</param>
 	/// <param name="getNodeCanBeNull">
-	///     true: если элемента нет, то метод вернет null
-	///     false: если элемента нет, то бросается Exception
-	///     null: берется значение, установленное при инициализации XmlTree
+	/// true: returns null when the element is missing.
+	/// false: throws when the element is missing.
+	/// null: uses the setting supplied to the XmlTree constructor.
 	/// </param>
-	/// <returns>Элемент nodeName</returns>
+	/// <returns>The first nodeName element.</returns>
 	public XmlNode Get(string nodeName, bool? getNodeCanBeNull = null)
     {
         return GetAll(nodeName, getNodeCanBeNull)?.FirstOrDefault();
     }
 
 	/// <summary>
-	///     Получить элементы
+	/// Gets matching elements.
 	/// </summary>
-	/// <param name="nodeName">Название элемента, при наличии нескольких таких элементов в текущем элементе вернется первый из них</param>
+	/// <param name="nodeName">Element name; uses the first match when several elements share the name.</param>
 	/// <param name="getNodeCanBeNull">
-	///     true: если элемента нет, то метод вернет null
-	///     false: если элемента нет, то бросается Exception
-	///     null: берется значение, установленное при инициализации XmlTree
+	/// true: returns null when the element is missing.
+	/// false: throws when the element is missing.
+	/// null: uses the setting supplied to the XmlTree constructor.
 	/// </param>
-	/// <returns>Элемент nodeName</returns>
+	/// <returns>The first nodeName element.</returns>
 	public List<XmlNode> GetAll(string nodeName, bool? getNodeCanBeNull = null)
     {
         getNodeCanBeNull ??= nodeGetCanBeNull;
@@ -167,9 +167,9 @@ public class XmlNode
     }
 
 	/// <summary>
-	///     Получить все элементы
+	/// Gets all child elements.
 	/// </summary>
-	/// <returns>Все элементы, дочерние по отношению к текущему</returns>
+	/// <returns>All children of the current element.</returns>
 	public Dictionary<string, List<XmlNode>> GetAll()
     {
         return innerNodes;

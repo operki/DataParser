@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
@@ -15,7 +15,7 @@ public enum DownloadStrategyFileName
 }
 
 /// <summary>
-///     Настройки для HttpDataFactory
+/// Settings for HttpDataFactory.
 /// </summary>
 public class HttpClientSettings
 {
@@ -40,79 +40,79 @@ public class HttpClientSettings
     public HttpClientSettings() { }
 
 	/// <summary>
-	///     Добавляет префикс к запросам с  относительными путями. Если указан то при попытке скачивания данных по урлу с отличающимся хостом будет бросать Exception
+	/// Base URL for relative requests. Requests to a different host are rejected when set.
 	/// </summary>
 	public string BaseUrl { get; set; }
 
 	/// <summary>
-	///     Стратегия именования файла при скачивании на диск через методы, возвращающие HttpStreamResult
-	///     PathGet - файл на диске будет назван через Path.GetFileName(url), позволяет докачивать файлы при обрыве соединения
-	///     Random - файл на диске будет назван случайно, позволяет избегать ошибок при параллельном скачивании, например '01.01.2020\data.xml' и '01.01.2021\data.xml'
-	///     Specify - требует при каждом запросе на скачивание указывать имя файла
+	/// File naming strategy for downloads returning HttpStreamResult.
+	/// PathGet uses Path.GetFileName(url) and supports resuming interrupted downloads.
+	/// Random uses a random file name to avoid collisions between concurrent downloads.
+	/// Specify requires a file name for each download request.
 	/// </summary>
 	public DownloadStrategyFileName StrategyFileName { get; set; } = DownloadStrategyFileName.PathGet;
 
 	/// <summary>
-	///     Разрешает скачивать только по защищенному протоколу https://, не учитывается если указан Proxy
+	/// Allows only HTTPS downloads; ignored when Proxy is set.
 	/// </summary>
 	public bool OnlyHttps { get; set; } = true;
 
 	/// <summary>
-	///     Проксирование запросов
+	/// Proxy for outgoing requests.
 	/// </summary>
 	public IWebProxy Proxy { get; set; } = null;
 
     public int DownloadTimeout { get; set; } = DownloadTimeoutDefault;
 
 	/// <summary>
-	///     Контейнер для куков, используется при инициализации клиента
+	/// Cookie container used when initializing the client.
 	/// </summary>
 	public CookieContainer CookieContainer { get; set; } = null;
 
 	/// <summary>
-	///     Локальный путь к кукам, применяется при инициализации если не указан CookieContainer и при сохранении куков в Dispose
+	/// Cookie file used during initialization when CookieContainer is absent, and saved on disposal.
 	/// </summary>
 	public string CookiesPath { get; set; }
 
 	/// <summary>
-	///     Сертификат сервера, не учитывается если указан SslValidation
+	/// Server certificate; ignored when SslValidation is set.
 	/// </summary>
 	public X509Certificate2 ServerCert { get; set; } = null;
 
 	/// <summary>
-	///     Валидация запроса с учетом сертификата
+	/// Custom server certificate validation.
 	/// </summary>
 	public Func<HttpRequestMessage, X509Certificate2, X509Chain, SslPolicyErrors, bool> SslValidation { get; set; } = null;
 
 	/// <summary>
-	///     Модификация HttpClientHandler, применяется разово при инициализации HttpDataFactory
+	/// Callback applied to HttpClientHandler when initializing HttpDataFactory.
 	/// </summary>
 	public Action<HttpClientHandler> ModifyClientHandler { get; set; } = null;
 
 	/// <summary>
-	///     Модификация HttpClient, применяется разово при инициализации HttpDataFactory
+	/// Callback applied to HttpClient when initializing HttpDataFactory.
 	/// </summary>
 	public Action<System.Net.Http.HttpClient> ModifyClient { get; set; } = null;
 
 	/// <summary>
-	///     Модификация HttpClient, применяется разово при post-запросах
-	///     Позволяет, например, указывать ContentType
+	/// Callback applied to the content of each POST request.
+	/// For example, use this callback to set ContentType.
 	///     content => content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded")
 	/// </summary>
 	public Action<ByteArrayContent> ModifyContent { get; set; } = null;
 
 	/// <summary>
-	///     Креды для HttpClientHandler, применяется разово при инициализации HttpDataFactory
+	/// Handler credentials applied when initializing HttpDataFactory.
 	/// </summary>
 	public ICredentials Credentials { get; set; } = null;
 
 	/// <summary>
-	///     Задержка перед отправкой запроса, помогает ограничить траффик к источнику, можно менять после инициализации
+	/// Delay before sending requests to limit traffic; can be changed after initialization.
 	/// </summary>
 	public int PreLoadTimeout { get; set; } = PreLoadTimeoutDefault;
 
 	/// <summary>
-	///     Количество попыток до возврата ошибки скачивания, можно менять после инициализации
+	/// Attempt count before returning a download error; can be changed after initialization.
 	/// </summary>
 	public int RetriesCount { get; set; } = RetriesCountDefault;
 }

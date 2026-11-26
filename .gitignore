@@ -4,3 +4,12 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .idea/*
+**/.idea/
+**/.vs/
+*.user
+*.nupkg
+TestResults/
+artifacts/
+
+# BEGIN managed oversized files (over 50 MB)
+# END managed oversized files

@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="DataParsers.ExcelParser/DataParsers.ExcelParser.csproj" />
+  <Project Path="DataParsers.ExcelParserExample/DataParsers.ExcelParserExample.csproj" />
+  <Project Path="DataParsers.ExcelParserTests/DataParsers.ExcelParserTests.csproj" />
+</Solution>

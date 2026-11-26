@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -8,28 +8,28 @@ using System.Xml.Schema;
 namespace DataParsers.XmlTree;
 
 /// <summary>
-///     Класс, формирующий дерево из xml элементов в удобном для парсинга виде
-///     Оперирует названием элемента, его значением, аттрибутами и вложенными элементами
+/// Builds a tree of XML elements for parsing.
+/// Exposes element names, values, attributes, and child elements.
 /// </summary>
 public class XmlTree
 {
     public readonly XmlNode RootNode;
 
 	/// <summary>
-	///     Инициализация дерева
+	/// Initializes the XML tree.
 	/// </summary>
-	/// <param name="stream">Поток, будет полностью вычитан для формирования дерева</param>
-	/// <param name="xsdPath">Локальный путь к схеме для файла</param>
+	/// <param name="stream">Input stream, read to construct the XML tree.</param>
+	/// <param name="xsdPath">Local path to the XSD schema.</param>
 	/// <param name="getValueCanBeNull">
-	///     true: Метод XmlNode.GetValue может вернуть null
-	///     false: Если метод XmlNode.GetValue пытается вернуть null, то бросается Exception
+	/// true: XmlNode.GetValue may return null.
+	/// false: XmlNode.GetValue throws when the value is missing.
 	/// </param>
 	/// <param name="getAttributeCanBeNull">
-	///     true: Метод XmlNode[] может вернуть null
-	///     false: Если метод XmlNode[] пытается вернуть null, то бросается Exception
+	/// true: XmlNode[] may return null.
+	/// false: XmlNode[] throws when the attribute is missing.
 	/// </param>
-	/// <exception cref="XmlSchemaValidationException">Ошибка при валидации xml схемы из xsdPath</exception>
-	/// <exception cref="Exception">Не удалось определить файл как xml</exception>
+	/// <exception cref="XmlSchemaValidationException">XML schema validation failed.</exception>
+	/// <exception cref="Exception">The input could not be identified as XML.</exception>
 	public XmlTree(Stream stream, string xsdPath, bool getValueCanBeNull = false, bool getAttributeCanBeNull = false)
     {
         var settings = new XmlReaderSettings
@@ -61,31 +61,31 @@ public class XmlTree
     }
 
 	/// <summary>
-	///     Инициализация дерева
+	/// Initializes the XML tree.
 	/// </summary>
-	/// <param name="xmlData">Строка с xml данными</param>
+	/// <param name="xmlData">XML document text.</param>
 	/// <param name="getValueCanBeNull">
-	///     true: Метод XmlNode.GetValue может вернуть null
-	///     false: Если метод XmlNode.GetValue пытается вернуть null, то бросается Exception
+	/// true: XmlNode.GetValue may return null.
+	/// false: XmlNode.GetValue throws when the value is missing.
 	/// </param>
 	/// <param name="getAttributeCanBeNull">
-	///     true: Метод XmlNode[] может вернуть null
-	///     false: Если метод XmlNode[] пытается вернуть null, то бросается Exception
+	/// true: XmlNode[] may return null.
+	/// false: XmlNode[] throws when the attribute is missing.
 	/// </param>
 	public XmlTree(string xmlData, bool getValueCanBeNull = false, bool getAttributeCanBeNull = false)
         : this(new MemoryStream(Encoding.UTF8.GetBytes(xmlData ?? "")), getValueCanBeNull, getAttributeCanBeNull) { }
 
 	/// <summary>
-	///     Инициализация дерева
+	/// Initializes the XML tree.
 	/// </summary>
-	/// <param name="stream">Поток, будет полностью вычитан для формирования дерева</param>
+	/// <param name="stream">Input stream, read to construct the XML tree.</param>
 	/// <param name="getValueCanBeNull">
-	///     true: Метод XmlNode.GetValue может вернуть null
-	///     false: Если метод XmlNode.GetValue пытается вернуть null, то бросается Exception
+	/// true: XmlNode.GetValue may return null.
+	/// false: XmlNode.GetValue throws when the value is missing.
 	/// </param>
 	/// <param name="getAttributeCanBeNull">
-	///     true: Метод XmlNode[] может вернуть null
-	///     false: Если метод XmlNode[] пытается вернуть null, то бросается Exception
+	/// true: XmlNode[] may return null.
+	/// false: XmlNode[] throws when the attribute is missing.
 	/// </param>
 	public XmlTree(Stream stream, bool getValueCanBeNull = false, bool getAttributeCanBeNull = false)
     {
@@ -97,9 +97,9 @@ public class XmlTree
     }
 
 	/// <summary>
-	///     Аттрибут корневого элемента дерева
+	/// An attribute of the root element.
 	/// </summary>
-	/// <param name="attributeName">Название аттрибута</param>
+	/// <param name="attributeName">Attribute name.</param>
 	public string this[string attributeName] => RootNode[attributeName];
 
     private static void ValidationEventHandler(object sender, ValidationEventArgs e)
@@ -125,19 +125,19 @@ public class XmlTree
     }
 
 	/// <summary>
-	///     Потоково парсит xml файл, используя стандартный System.Xml.XmlReader
+	/// Enumerates XML elements using System.Xml.XmlReader.
 	/// </summary>
-	/// <param name="inputStream">Входной стрим для парсинга</param>
-	/// <param name="elementName">Название элементов, которые необходимо вытащить</param>
+	/// <param name="inputStream">Input stream.</param>
+	/// <param name="elementName">Name of the elements to extract.</param>
 	/// <param name="getValueCanBeNull">
-	///     true: Метод XmlNode.GetValue может вернуть null
-	///     false: Если метод XmlNode.GetValue пытается вернуть null, то бросается Exception
+	/// true: XmlNode.GetValue may return null.
+	/// false: XmlNode.GetValue throws when the value is missing.
 	/// </param>
 	/// <param name="getAttributeCanBeNull">
-	///     true: Метод XmlNode[] может вернуть null
-	///     false: Если метод XmlNode[] пытается вернуть null, то бросается Exception
+	/// true: XmlNode[] may return null.
+	/// false: XmlNode[] throws when the attribute is missing.
 	/// </param>
-	/// <returns>Список элементов</returns>
+	/// <returns>Matching elements.</returns>
 	public static IEnumerable<XmlNode> Parse(Stream inputStream, string elementName, bool getValueCanBeNull = false, bool getAttributeCanBeNull = false)
     {
         var reader = XmlReader.Create(inputStream, new XmlReaderSettings());
@@ -155,19 +155,19 @@ public class XmlTree
     }
 
 	/// <summary>
-	///     Потоково парсит xml файл, используя стандартный System.Xml.XmlReader
+	/// Enumerates XML elements using System.Xml.XmlReader.
 	/// </summary>
-	/// <param name="filePath">Локальный путь к файлу</param>
-	/// <param name="elementName">Название элементов, которые необходимо вытащить</param>
+	/// <param name="filePath">Local file path.</param>
+	/// <param name="elementName">Name of the elements to extract.</param>
 	/// <param name="getValueCanBeNull">
-	///     true: Метод XmlNode.GetValue может вернуть null
-	///     false: Если метод XmlNode.GetValue пытается вернуть null, то бросается Exception
+	/// true: XmlNode.GetValue may return null.
+	/// false: XmlNode.GetValue throws when the value is missing.
 	/// </param>
 	/// <param name="getAttributeCanBeNull">
-	///     true: Метод XmlNode[] может вернуть null
-	///     false: Если метод XmlNode[] пытается вернуть null, то бросается Exception
+	/// true: XmlNode[] may return null.
+	/// false: XmlNode[] throws when the attribute is missing.
 	/// </param>
-	/// <returns>Список элементов</returns>
+	/// <returns>Matching elements.</returns>
 	public static IEnumerable<XmlNode> Parse(string filePath, string elementName, bool getValueCanBeNull = false, bool getAttributeCanBeNull = false)
     {
         var reader = XmlReader.Create(filePath, new XmlReaderSettings());
@@ -185,10 +185,10 @@ public class XmlTree
     }
 
 	/// <summary>
-	///     Определяет является ли поток xml документом
+	/// Checks whether a stream contains an XML document.
 	/// </summary>
-	/// <param name="stream">Поток данных</param>
-	/// <returns>Является ли поток корректным xml документом</returns>
+	/// <param name="stream">Input stream, read to construct the XML tree.</param>
+	/// <returns>Whether the stream contains a valid XML document.</returns>
 	public static bool IsXml(Stream stream)
     {
         TextReader textReader = new StreamReader(stream);
@@ -196,10 +196,10 @@ public class XmlTree
     }
 
 	/// <summary>
-	///     Определяет является ли строка xml документом
+	/// Checks whether a string contains an XML document.
 	/// </summary>
-	/// <param name="xmlData">Строка xml данных</param>
-	/// <returns>Является ли строка корректным xml документом</returns>
+	/// <param name="xmlData">XML document text.</param>
+	/// <returns>Whether the string contains a valid XML document.</returns>
 	public static bool IsXml(string xmlData)
     {
         TextReader textReader = new StringReader(xmlData);
@@ -221,50 +221,50 @@ public class XmlTree
     }
 
 	/// <summary>
-	///     Получить значение из элемента
+	/// Gets an element value.
 	/// </summary>
-	/// <param name="nodeName">Название элемента в который надо опуститься, при наличии нескольких такихэлементов в головном документе вернется первый из них</param>
-	/// <param name="nodeNameDown">Название элемента из которого надо взять значение, при наличии нескольких таких элементов в nodeName вернется первый из них</param>
-	/// <returns>Значение элемента nodeNameDown</returns>
+	/// <param name="nodeName">Element name; uses the first match when several elements share the name.</param>
+	/// <param name="nodeNameDown">Child element name; uses the first matching child.</param>
+	/// <returns>The value of nodeNameDown.</returns>
 	public string GetValue(string nodeName, string nodeNameDown)
     {
         return RootNode.GetValue(nodeName, nodeNameDown);
     }
 
 	/// <summary>
-	///     Получить значение из элемента
+	/// Gets an element value.
 	/// </summary>
-	/// <param name="nodeName">Название элемента, при наличии нескольких таких элементов в головном документе вернется первый из них</param>
-	/// <returns>Значение элемента nodeName</returns>
+	/// <param name="nodeName">Element name; uses the first match when several elements share the name.</param>
+	/// <returns>The value of nodeName.</returns>
 	public string GetValue(string nodeName)
     {
         return RootNode.GetValue(nodeName);
     }
 
 	/// <summary>
-	///     Получить элемент
+	/// Gets the first matching element.
 	/// </summary>
-	/// <param name="nodeName">Название элемента, при наличии нескольких таких элементов в головном документе вернется первый из них</param>
-	/// <returns>Элемент nodeName</returns>
+	/// <param name="nodeName">Element name; uses the first match when several elements share the name.</param>
+	/// <returns>The first nodeName element.</returns>
 	public XmlNode Get(string nodeName)
     {
         return RootNode.Get(nodeName);
     }
 
 	/// <summary>
-	///     Получить элементы
+	/// Gets matching elements.
 	/// </summary>
-	/// <param name="nodeName">Название элементов</param>
-	/// <returns>Элементы nodeName</returns>
+	/// <param name="nodeName">Element name; uses the first match when several elements share the name.</param>
+	/// <returns>All nodeName elements.</returns>
 	public List<XmlNode> GetAll(string nodeName)
     {
         return RootNode.GetAll(nodeName);
     }
 
 	/// <summary>
-	///     Получить все элементы
+	/// Gets all child elements.
 	/// </summary>
-	/// <returns>Все элементы, дочерние по отношению к головному</returns>
+	/// <returns>All children of the root element.</returns>
 	public Dictionary<string, List<XmlNode>> GetAll()
     {
         return RootNode.GetAll();

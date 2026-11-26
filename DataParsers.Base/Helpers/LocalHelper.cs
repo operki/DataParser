@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -37,10 +37,10 @@ public static class LocalHelper
     }
 
     /// <summary>
-    ///     Убирает из файла непечатаемые символы для локального сохранения
+    /// Removes invalid characters from a local file name.
     /// </summary>
-    /// <param name="fileName">Файл для изменения</param>
-    /// <returns>Файл для локального сохранения</returns>
+    /// <param name="fileName">Local file name; download methods use the naming strategy when omitted.</param>
+    /// <returns>A safe local file name.</returns>
     public static string GetSafeFileName(string fileName)
     {
         return RemoveInvalidRegex.Replace(Path.GetFileName(fileName), "");
